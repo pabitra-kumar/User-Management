@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userSlice, fetchData } from "./slices/UserSlice";
+import { userSlice } from "./slices/UserSlice";
+import { userApi } from "./api";
 
 const store = configureStore({
     reducer: {
+        [userApi.reducerPath]: userApi.reducer, // [userApi.reducerPath] is the same as [userApi.name]: userApi.reducer
         users: userSlice.reducer,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApi.middleware),
 });
-
-store.dispatch(fetchData());
 
 export default store;
