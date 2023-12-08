@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
-import { useUpdateUserMutation, useFetchUserByIdQuery } from '../store/api'
+import { useUpdateUserMutation } from '../store/api'
+import { useSelector } from 'react-redux'
 
 export const EditUser = () => {
     let { id } = useParams();
     id = Number(id);
+    const users = useSelector((state) => state.users.data);
     const [formData, setFormData] = useState({}); // State to hold the form data
-    const { data, error, isfetching } = useFetchUserByIdQuery(id); // Our query hook from the slice
+    const data = users?.filter((user) => user.id === id)[0];
     const [updateUserMutation, { isLoading }] = useUpdateUserMutation() // Our mutation hook from the slice
     let navigate = useNavigate()
 
@@ -26,8 +28,7 @@ export const EditUser = () => {
         try {
 
             formData.id = id;
-            const result = await updateUserMutation(formData);
-            console.log("Successfully Edited! ", result);
+            await updateUserMutation(formData);
             alert(` User with ID: ${id} ,  Edited successfully!`);
 
         } catch (error) {

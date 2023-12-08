@@ -1,21 +1,19 @@
 import React from 'react'
 import { User } from '../components/User'
 import { useFetchUsersQuery } from '../store/api'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { fetchUsers } from '../store/slices/UserSlice'
+import { fetchUsers, prevPage, nextPage } from '../store/slices/UserSlice'
 
 const Users = () => {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.users.data);
-
-    const [page, setPage] = useState(1);
+    const page = useSelector((state) => state.users.page);
 
     const { data, error, isLoading, refetch } = useFetchUsersQuery(page);
-
     useEffect(() => {
         dispatch(fetchUsers(data));
     }, [data, dispatch])
@@ -23,14 +21,16 @@ const Users = () => {
     // Run useFetchUsersQuery after every re-render
     useEffect(() => {
         refetch();
-    }, [refetch]);
+    }, [refetch, page, dispatch]);
 
-    const nextPage = () => {
-        setPage(page + 1);
+    const next = () => {
+        dispatch(nextPage());
     }
-    const prevPage = () => {
-        setPage(page - 1);
+
+    const prev = () => {
+        dispatch(prevPage());
     }
+
 
     return (
         <main className='w-full flex justify-center bg-[#f5f6fa]'>
@@ -47,9 +47,9 @@ const Users = () => {
                 </div>
                 <div className="pagination w-full flex justify-center gap-[3vw]">
                     <div className='flex gap-[1.5vw] items-center bg-green-200 p-[5px] rounded-lg flex-wrap'>
-                        {page > 1 ? <button onClick={prevPage} className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button> : <button disabled className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button>}
-                        <p className='font-bold'>Page: {page}</p>
-                        <button onClick={nextPage} className="bg-green-700 rounded-md py-[5px] px-[10px] ">Next</button>
+                        {page > 1 ? <button onClick={prev} className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button> : <button disabled className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button>}
+                        <p className='font-bold'> Page: {page}</p>
+                        <button onClick={next} className="bg-green-700 rounded-md py-[5px] px-[10px] ">Next</button>
                     </div>
 
                 </div>
@@ -65,9 +65,9 @@ const Users = () => {
                 </div>
                 <div className="pagination w-full flex justify-center gap-[3vw]">
                     <div className='flex gap-[1.5vw] items-center bg-green-200 p-[5px] rounded-lg flex-wrap'>
-                        {page > 1 ? <button onClick={prevPage} className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button> : <button disabled className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button>}
+                        {page > 1 ? <button onClick={prev} className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button> : <button disabled className=" bg-green-700 rounded-md py-[5px] px-[10px]">Prev</button>}
                         <p className='font-bold'>Page: {page}</p>
-                        <button onClick={nextPage} className="bg-green-700 rounded-md py-[5px] px-[10px] ">Next</button>
+                        <button onClick={next} className="bg-green-700 rounded-md py-[5px] px-[10px] ">Next</button>
                     </div>
 
                 </div>

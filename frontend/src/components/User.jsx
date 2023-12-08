@@ -6,7 +6,24 @@ import { Link } from 'react-router-dom'
 import { FaUserEdit } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 
+import { useDeleteUserMutation } from '../store/api'
+import { useDispatch } from 'react-redux'
+import { removeUser } from '../store/slices/UserSlice'
+
 export const User = ({ user }) => {
+
+    const dispatch = useDispatch();
+    const [deleteUserMutation, { isLoading }] = useDeleteUserMutation() // Our mutation hook from the slice
+
+    const deleteUser = async () => {
+        try {
+            await deleteUserMutation(user?.id);
+            alert(` User with ID: ${user?.id} ,  Deleted successfully!`);
+            dispatch(removeUser(user?.id));
+        } catch (error) {
+            console.error('rejected: ', error);
+        }
+    };
     return (
         <div className='bg-white w-[300px] min-h-[100px] rounded-xl p-[20px] flex flex-col gap-[10px]'>
             <div className="w-[60px] h-[60px] image bg-white rounded-lg overflow-hidden">
@@ -51,9 +68,10 @@ export const User = ({ user }) => {
                         <FaUserEdit className='text-zinc-600' />
                     </div>
                 </Link>
-                <div className="email bg-[#b1b2b5] rounded-full p-[10px] hover:bg-red-200 cursor-pointer">
-                    <MdDelete className='text-zinc-600' />
-                </div>
+                {isLoading ? <h1>Loading...</h1> :
+                    <div onClick={deleteUser} className="email bg-[#b1b2b5] rounded-full p-[10px] hover:bg-red-200 cursor-pointer">
+                        <MdDelete className='text-zinc-600' />
+                    </div>}
             </div>
 
         </div>
