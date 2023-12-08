@@ -5,7 +5,7 @@ export const userApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'https://user-management-backend-production.up.railway.app/api/users/' }),
     endpoints: (builder) => ({
         fetchUsers: builder.query({
-            query: (page, name = null, domain = null, gender = null, avl = null) => {
+            query: ({ page, name = null, domain = null, gender = null, avl = null }) => {
                 let query = '?page=' + page;
                 if (name) {
                     query += '&name=' + name;
