@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { fetchUsers, prevPage, nextPage, fetchSearch, fetchDomain, fetchPage, fetchGender } from '../store/slices/UserSlice'
+import { fetchUsers, prevPage, nextPage, fetchSearch, fetchDomain, fetchPage, fetchGender, fetchAvl } from '../store/slices/UserSlice'
 
 const Users = () => {
     const dispatch = useDispatch();
@@ -15,8 +15,9 @@ const Users = () => {
     const search = useSelector((state) => state.users.searchData);
     const domain = useSelector((state) => state.users.domainData);
     const gender = useSelector((state) => state.users.gender);
+    const avl = useSelector((state) => state.users.avl);
 
-    const { data, error, isLoading, refetch } = useFetchUsersQuery({ page, name: search, domain: domain, gender: gender });
+    const { data, error, isLoading, refetch } = useFetchUsersQuery({ page, name: search, domain: domain, gender: gender, avl: avl });
     useEffect(() => {
         dispatch(fetchUsers(data));
     }, [data, dispatch])
@@ -24,7 +25,7 @@ const Users = () => {
     // Run useFetchUsersQuery after every re-render
     useEffect(() => {
         refetch();
-    }, [refetch, page, dispatch, search, domain, gender]);
+    }, [refetch, page, dispatch, search, domain, gender, avl]);
 
     const next = () => {
         dispatch(nextPage());
@@ -52,17 +53,23 @@ const Users = () => {
         dispatch(fetchPage(1));
     }
 
+    const handleAvl = (e) => {
+        const data = e.target.checked;
+        console.log(data);
+        dispatch(fetchAvl(data));
+    }
+
 
     return (
         <main className='w-full flex justify-center bg-[#f5f6fa]'>
             <section className='flex flex-col items-center justify-start min-h-screen w-full p-10 gap-y-[20px]'>
-                <div className='flex w-full justify-between pr-[3vw] items-end flex-wrap gap-5' >
+                <div className='flex w-full justify-between pr-[3vw] items-center flex-wrap gap-5' >
                     <h1 className='text-6xl text-gray-400 font-bold'>
                         USERS
                     </h1>
 
                     <form>
-                        <label htmlFor="domain-select" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                        <label htmlFor="domain-select" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Filter Domain</label>
                         <div className="relative">
                             <select name="cars" onChange={handleDomain} id="domain-select" className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value=""> Filter by domain:</option>
@@ -93,6 +100,13 @@ const Users = () => {
                             </select>
                         </div>
                     </form>
+
+                    <div className="flex items-center ">
+                        <div className="flex items-center h-5">
+                            <input id="avl_check" name='available' defaultChecked={data?.available} onChange={handleAvl} type="checkbox" className="w-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+                        </div>
+                        <label htmlFor="avl_check" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">available</label>
+                    </div>
 
                     <form>
                         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>

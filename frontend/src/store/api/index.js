@@ -17,8 +17,9 @@ export const userApi = createApi({
                     query += '&gender=' + gender;
                 }
                 if (avl) {
-                    query += '&availablel=' + avl;
+                    query += '&available=' + avl;
                 }
+                console.log(query)
                 return query;
             },
         }),

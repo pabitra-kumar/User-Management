@@ -7,6 +7,7 @@ const initialState = {
     searchData: "",
     domainData: "",
     gender: "",
+    avl: null,
 };
 
 
@@ -42,6 +43,9 @@ const userSlice = createSlice({
         fetchGender(state, action) {
             state.gender = action.payload;
         },
+        fetchAvl(state, action) {
+            state.avl = action.payload;
+        },
         nextPage(state) {
             state.page += 1;
         },
@@ -51,5 +55,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { fetchUsers, addUser, removeUser, updateUser, searchUser, nextPage, prevPage, fetchSearch, fetchDomain, fetchPage, fetchGender } = userSlice.actions;
+export const { fetchUsers, addUser, removeUser, updateUser, searchUser, nextPage, prevPage, fetchSearch, fetchDomain, fetchPage, fetchGender, fetchAvl } = userSlice.actions;
 export { userSlice };
