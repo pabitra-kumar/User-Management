@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     data: [],
     page: 1,
-    searchData: "Ane",
+    searchData: "",
+    domainData: "",
 };
 
 
@@ -31,6 +32,12 @@ const userSlice = createSlice({
         fetchSearch(state, action) {
             state.searchData = action.payload;
         },
+        fetchDomain(state, action) {
+            state.domainData = action.payload;
+        },
+        fetchPage(state, action) {
+            state.page = action.payload;
+        },
         nextPage(state) {
             state.page += 1;
         },
@@ -40,5 +47,5 @@ const userSlice = createSlice({
     },
 });
 
-export const { fetchUsers, addUser, removeUser, updateUser, searchUser, nextPage, prevPage, fetchSearch } = userSlice.actions;
+export const { fetchUsers, addUser, removeUser, updateUser, searchUser, nextPage, prevPage, fetchSearch, fetchDomain, fetchPage } = userSlice.actions;
 export { userSlice };
