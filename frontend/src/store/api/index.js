@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const userApi = createApi({
     reducerPath: 'userApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://user-management-backend-production.up.railway.app/api/users/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://user-management-backend-ovx4.onrender.com/api/users' }),
     endpoints: (builder) => ({
         fetchUsers: builder.query({
             query: ({ page, name = null, domain = null, gender = null, avl = null }) => {
@@ -14,7 +14,7 @@ export const userApi = createApi({
                     query += '&domain=' + domain;
                 }
                 if (gender) {
-                    gender += '&gender=' + gender;
+                    query += '&gender=' + gender;
                 }
                 if (avl) {
                     query += '&availablel=' + avl;
@@ -51,6 +51,8 @@ export const userApi = createApi({
     }),
 });
 
+
+// https://user-management-backend-ovx4.onrender.com/api/users
 
 // https://user-management-backend-production.up.railway.app/api/users/
 export const { useFetchUsersQuery, useFetchUserByIdQuery, useAddUserMutation, useUpdateUserMutation, useDeleteUserMutation } = userApi;

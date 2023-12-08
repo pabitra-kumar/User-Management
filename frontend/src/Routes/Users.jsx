@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { fetchUsers, prevPage, nextPage, fetchSearch, fetchDomain, fetchPage } from '../store/slices/UserSlice'
+import { fetchUsers, prevPage, nextPage, fetchSearch, fetchDomain, fetchPage, fetchGender } from '../store/slices/UserSlice'
 
 const Users = () => {
     const dispatch = useDispatch();
@@ -14,8 +14,9 @@ const Users = () => {
     const page = useSelector((state) => state.users.page);
     const search = useSelector((state) => state.users.searchData);
     const domain = useSelector((state) => state.users.domainData);
+    const gender = useSelector((state) => state.users.gender);
 
-    const { data, error, isLoading, refetch } = useFetchUsersQuery({ page, name: search, domain: domain });
+    const { data, error, isLoading, refetch } = useFetchUsersQuery({ page, name: search, domain: domain, gender: gender });
     useEffect(() => {
         dispatch(fetchUsers(data));
     }, [data, dispatch])
@@ -23,7 +24,7 @@ const Users = () => {
     // Run useFetchUsersQuery after every re-render
     useEffect(() => {
         refetch();
-    }, [refetch, page, dispatch, search, domain]);
+    }, [refetch, page, dispatch, search, domain, gender]);
 
     const next = () => {
         dispatch(nextPage());
@@ -45,6 +46,12 @@ const Users = () => {
         dispatch(fetchPage(1));
     }
 
+    const handleGender = (e) => {
+        const data = e.target.value;
+        dispatch(fetchGender(data));
+        dispatch(fetchPage(1));
+    }
+
 
     return (
         <main className='w-full flex justify-center bg-[#f5f6fa]'>
@@ -55,7 +62,7 @@ const Users = () => {
                     </h1>
 
                     <form>
-                        <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                        <label htmlFor="domain-select" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                         <div className="relative">
                             <select name="cars" onChange={handleDomain} id="domain-select" className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value=""> Filter by domain:</option>
@@ -66,6 +73,23 @@ const Users = () => {
                                 <option value="Marketing">Marketing</option>
                                 <option value="UI Designing">UI designing</option>
                                 <option value="Business Development">Business Development</option>
+                            </select>
+                        </div>
+                    </form>
+
+                    <form>
+                        <label htmlFor="Gender-select" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Filter Gender</label>
+                        <div className="relative">
+                            <select name="cars" onChange={handleGender} id="Gender-select" className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value=""> Filter by Gender:</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Agender">Agender</option>
+                                <option value="Bigender">Bigender</option>
+                                <option value="Polygender">Polygender</option>
+                                <option value="Non-binary">Non-binary</option>
+                                <option value="Genderfluid">Genderfluid</option>
+                                <option value="Genderqueer">Genderqueer</option>
                             </select>
                         </div>
                     </form>
