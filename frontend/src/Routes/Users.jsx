@@ -1,18 +1,29 @@
 import React from 'react'
 import { User } from '../components/User'
 import { useFetchUsersQuery } from '../store/api'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
+import { useDispatch, useSelector } from 'react-redux'
 
+import { fetchUsers } from '../store/slices/UserSlice'
 
 const Users = () => {
+    const dispatch = useDispatch();
+    const users = useSelector((state) => state.users.data);
 
     const [page, setPage] = useState(1);
-    // const [users, setUsers] = useState([]);
 
-    const { data, error, isLoading } = useFetchUsersQuery(page);
-    // setUsers(data);
+    const { data, error, isLoading, refetch } = useFetchUsersQuery(page);
+
+    useEffect(() => {
+        dispatch(fetchUsers(data));
+    }, [data, dispatch])
+
+    // Run useFetchUsersQuery after every re-render
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
 
     const nextPage = () => {
         setPage(page + 1);
@@ -46,7 +57,7 @@ const Users = () => {
                     {
                         isLoading ? <h1>Loading...</h1> :
                             error ? <h1>Error: {error}</h1> :
-                                data?.map((user) => (
+                                users?.map((user) => (
                                     <User key={user.id} user={user} />
                                 ))
                     }

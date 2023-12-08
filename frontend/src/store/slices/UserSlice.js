@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Define an initial state
 const initialState = {
-    users: [],
-    teams: [],
+    data: []
 };
 
 
@@ -13,14 +12,23 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         fetchUsers(state, action) {
-
+            state.data = action.payload;
         },
         addUser(state, action) {
-
+            state.data.push(action.payload);
         },
-        removeUser(state, action) { },
-        updateUser(state, action) { },
-        searchUser(state, action) { },
+        removeUser(state, action) {
+            state.data = state.data.filter((user) => user.id !== action.payload);
+        },
+        updateUser(state, action) {
+            let index = state.data.findIndex((user) => user.id === action.payload.id);
+            console.log("state.data[index]", state.data[index])
+            state.data[index] = action.payload;
+            console.log("state.data[index]", state.data[index])
+        },
+        searchUser(state, action) {
+            state.data = action.payload;
+        },
     },
 });
 

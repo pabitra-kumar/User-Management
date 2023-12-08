@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const userApi = createApi({
     reducerPath: 'userApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://user-management-backend-production.up.railway.app/api/users/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/users/' }),
     endpoints: (builder) => ({
         fetchUsers: builder.query({
             query: (page, name = null, domain = null, gender = null, avl = null) => {
@@ -33,11 +33,14 @@ export const userApi = createApi({
             }),
         }),
         updateUser: builder.mutation({
-            query: ({ id, body }) => ({
-                url: `/${id}`,
-                method: 'PUT',
-                body,
-            }),
+            query: (body) => {
+                console.log(body)
+                return {
+                    url: `/${body?.id}`,
+                    method: 'PUT',
+                    body: body,
+                }
+            },
         }),
         deleteUser: builder.mutation({
             query: (id) => ({

@@ -4,6 +4,7 @@ import Home from './Routes/Home';
 import Users from './Routes/Users';
 import Teams from './Routes/Teams';
 import { AddUser } from './Routes/AddUser';
+import { EditUser } from './Routes/EditUser';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path='/users' element={<Users />} />
       <Route path='/teams' element={<Teams />} />
       <Route path='/users/create' element={<AddUser />} />
+      <Route path='/users/edit/:id' element={<EditUser />} />
     </Routes>
   );
 }
