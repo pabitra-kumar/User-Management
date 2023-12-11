@@ -17,8 +17,10 @@ export const User = ({ user }) => {
 
     const deleteUser = async () => {
         try {
+            const check = window.confirm(`Are you sure you want to delete ${user?.first_name} ${user?.last_name} ?`);
+            if (!check) return;
             await deleteUserMutation(user?.id);
-            alert(` User with ID: ${user?.id} ,  Deleted successfully!`);
+            alert(` ${user?.first_name} ${user?.last_name}  Deleted successfully!`);
             dispatch(removeUser(user?.id));
         } catch (error) {
             console.error('rejected: ', error);
