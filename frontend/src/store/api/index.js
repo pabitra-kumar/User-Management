@@ -19,7 +19,6 @@ export const userApi = createApi({
                 if (avl) {
                     query += '&available=' + avl;
                 }
-                console.log(query)
                 return query;
             },
         }),
