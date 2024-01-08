@@ -19,10 +19,13 @@ const getUsers = async (req, res) => {
 
         if (users.length == 0) return res.status(204).json({ "message": "No Employees found" })
 
-        const page = Number(req?.query?.page) || 1;
-        const limit = Number(req?.query?.limit) || 20;
-        const skip = (page - 1) * limit;
-        users = users.slice(skip, skip + limit);
+        if (req?.query?.page) {
+            const page = Number(req?.query?.page);
+            const limit = Number(req?.query?.limit) || 20;
+            const skip = (page - 1) * limit;
+            users = users.slice(skip, skip + limit);
+        }
+
 
         res.json(users);
     } catch (err) {
