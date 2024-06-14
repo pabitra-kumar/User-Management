@@ -1,14 +1,14 @@
 
 # UserMagnet
 
-## BackEnd-API
-### Tech-Stacks: 
+## Tech-Stacks: 
 1. React.js
 2. Redux
 3. Node.js
 4. Express
 5. MongoDB
 
+## BackEnd-API
 
 ### CRUD 
 (Create, Read, Update, Delete) operations for managing the user data.
