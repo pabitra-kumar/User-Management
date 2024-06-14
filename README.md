@@ -3,7 +3,13 @@
 
 ## BackEnd-API
 ### Tech-Stacks: 
-  #### `node.js` `Express` `Mongoose`  `MongoDB`  `Render`
+1. React.js
+2. Redux
+3. Node.js
+4. Express
+5. MongoDB
+
+
 ### CRUD 
 (Create, Read, Update, Delete) operations for managing the user data.
 
