@@ -1,6 +1,8 @@
 
 # UserMagnet
 
+### Deployed Link:   [click here to see the site](https://user-management-tau-dun.vercel.app/)
+
 ## Tech-Stacks: 
 1. React.js
 2. Redux
